@@ -10,5 +10,6 @@ __pycache__
 **/my_environment/
 **/.env
 media/profile_pics/*
+media/menu_pics/*
 db.sqlite3
 staticfiles/*
