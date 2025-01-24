@@ -2,12 +2,13 @@
 {% block content %}
     {% for order in orders %}
         <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ order.customer.profile.image.url }}">
             <div class="media-body">
               <div class="article-metadata">
                 <a class="mr-2" href="#">{{ order.customer }}</a>
                 <small class="text-muted">{{ order.order_at|date:'dS, F, Y' }}</small>
               </div>
-              <h2><a class="article-title" href="#">{{ order.product_name }}</a></h2>
+              <h2><a class="article-title" href="{% url 'orders-detail' order.id %}">{{ order.product_name }}</a></h2>
               <p class="article-content">{{ order.status }}</p>
             </div>
             <div class="media">
