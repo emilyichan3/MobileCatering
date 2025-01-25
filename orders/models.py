@@ -5,14 +5,14 @@ from datetime import datetime
 
 User = get_user_model()
 
-class Business(models.Model):
-    business_name = models.CharField(max_length=60)
-    business_description = models.TextField()
+class Caterer(models.Model):
+    caterer_name = models.CharField(max_length=60)
+    caterer_description = models.TextField()
     location = models.CharField(max_length=200)
     activate = models.BooleanField(default=True)
     
     def __str__(self):
-        return f'{ self.business_name } is located at { self.location }'
+        return f'{ self.caterer_name } is located at { self.location }'
     
 class Menu(models.Model):
     product_name = models.CharField(max_length=20)
@@ -21,7 +21,7 @@ class Menu(models.Model):
     unit_discount_price = models.DecimalField(max_digits=5, decimal_places=2)
     max_serve_qualities = models.IntegerField()
     sample_image = models.ImageField(upload_to='menu_pics', blank=True, null=True)
-    owner = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='menu')
+    owner = models.ForeignKey(Caterer, on_delete=models.CASCADE, related_name='menu')
 
     def __str__(self):
         return f'{ self.product_name }'
