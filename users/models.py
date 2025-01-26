@@ -9,7 +9,7 @@ User = get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='user_default.jpg', upload_to='profile_pics')
     dob = models.DateField(default=datetime.utcnow)
 
     def __str__(self):

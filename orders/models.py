@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from datetime import datetime
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -20,7 +20,9 @@ class Menu(models.Model):
     unit_price = models.DecimalField(max_digits=5, decimal_places=2)
     unit_discount_price = models.DecimalField(max_digits=5, decimal_places=2)
     max_serve_qualities = models.IntegerField()
-    sample_image = models.ImageField(upload_to='menu_pics', blank=True, null=True)
+    available_from = models.DateTimeField(default=timezone.now)
+    available_to = models.DateTimeField(default=timezone.now)
+    sample_image = models.ImageField(default='menu_default.jpg', upload_to='menu_pics', blank=True, null=True)
     owner = models.ForeignKey(Caterer, on_delete=models.CASCADE, related_name='menu')
 
     def __str__(self):

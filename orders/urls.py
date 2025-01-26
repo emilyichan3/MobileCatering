@@ -6,6 +6,7 @@ from .views import (
     CatererMenuListView
 )
 from . import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path("", CatererListView.as_view(), name='orders-home'),
@@ -15,3 +16,7 @@ urlpatterns = [
     path('about/',views.about, name='orders-about'),
     path("menu", views.menu, name="orders-menu"),
 ]
+
+# below code is for app's iamges using static method
+# urlpatterns += staticfiles_urlpatterns() 
+
