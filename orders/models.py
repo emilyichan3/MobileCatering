@@ -10,6 +10,7 @@ class Caterer(models.Model):
     caterer_description = models.TextField()
     location = models.CharField(max_length=200)
     activate = models.BooleanField(default=True)
+    register = models.ForeignKey(User, on_delete=models.CASCADE, related_name='caterer')
     
     def __str__(self):
         return f'{ self.caterer_name } is located at { self.location }'
