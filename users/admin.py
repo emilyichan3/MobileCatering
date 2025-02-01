@@ -1,8 +1,3 @@
-# from django.contrib import admin
-
-# # Register your models here.
-# from .models import Profile
-
 # admin.site.register(Profile)
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -32,6 +27,5 @@ class CustomUserAdmin(UserAdmin):
     )
     search_fields = ("email",)
     ordering = ("email",)
-
 
 admin.site.register(Profile, CustomUserAdmin)

@@ -12,7 +12,6 @@ from .models import Profile #We want to import Profile from our models as we we 
 from django.contrib.auth.models import User #The user model will be the sender
 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Profile
 
 # Create your views here.
 def register(request):

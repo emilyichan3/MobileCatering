@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from django.utils import timezone
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -15,6 +15,10 @@ class Caterer(models.Model):
     def __str__(self):
         return f'{ self.caterer_name } is located at { self.location }'
     
+    def get_absolute_url(self):
+        return reverse('orders-mycaterer', kwargs={'user_id': self.register.id})
+    
+
 class Menu(models.Model):
     product_name = models.CharField(max_length=20)
     product_description = models.CharField(max_length=100)
