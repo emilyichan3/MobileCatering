@@ -13,14 +13,12 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 User = get_user_model()
 # xxx/admin/
 class CustomUserCreationForm(UserCreationForm):
-    
     class Meta:
         model = Profile
         fields = ("email","first_name", "last_name",'image','dob')
 
 
 class CustomUserChangeForm(UserChangeForm):
-
     class Meta:
         model = Profile
         fields = ("email","first_name", "last_name",'image','dob')

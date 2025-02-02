@@ -6,8 +6,9 @@
           <th scope="col">Caterer</th>
           <th scope="col">Description</th>
           <th scope="col">Location</th>
-          <th scope="col">Menu</th>
           <th scope="col">Activate</th>
+          <th scope="col">Register ID</th>
+          <th scope="col">Menu</th>
         </tr>
       </thead>
       <tbody>
@@ -16,16 +17,17 @@
             <td>{{ caterer.caterer_name }}</td>
             <td>{{ caterer.caterer_description }}</td>
             <td>{{ caterer.location }}</td>
+            <td>{% if caterer.activate %}Opening{% else %}Closed{% endif %}</td>
+            <td>Link: {{ caterer.register.id }} </td>
             <td class="d-flex">
               <a
                 class="btn btn-sm btn-primary me-2"
-                href="{% url 'orders-mycaterer-menu' caterer_id=caterer.id %}"
+                href="{% url 'orders-menu-by-caterer' caterer_id=caterer.id %}"
                 role="button"
               >
                 Menu
               </a>
             </td>
-            <td>{% if caterer.activate %}Opening{% else %}Closed{% endif %}</td>
           </tr>
         {% endfor %}
       </tbody>

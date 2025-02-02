@@ -10,7 +10,13 @@
                 {{ form|crispy }} <!-- Updated to load the form and let crispy take care of the --> 
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button> <!-- Text Changed here -->
+                <button class="btn btn-outline-info" type="submit">
+                    {% if form.instance.pk %}
+                    Update
+                    {% else %}
+                    Create
+                    {% endif %}
+                </button>
             </div>
         </form>
         <!-- Changed here, div removed -->
