@@ -14,6 +14,9 @@ from django.db.models import Q
 from django.utils import timezone
 from datetime import date
 from django.contrib.auth.models import User #The user model will be the sender
+from django.contrib import messages
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
 
 User = get_user_model()
 
@@ -51,7 +54,7 @@ class MyCatererCreateView(LoginRequiredMixin, CreateView):
         form.instance.register = self.request.user
         return super().form_valid(form)
 
-class MyCatererListView(LoginRequiredMixin, ListView):
+class MyCatererListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Caterer
     template_name = 'orders/caterer_list.html'
     context_object_name = 'caterers'
@@ -64,7 +67,9 @@ class MyCatererListView(LoginRequiredMixin, ListView):
         )
         return caterers
     
-    
+    def test_func(self):
+        return self.request.user.id == self.kwargs.get('user_id')
+
 class MyCatererMenuListView(LoginRequiredMixin, ListView):
     model = Menu
     template_name = 'orders/caterer_menu.html'
@@ -101,11 +106,31 @@ class MyCatererUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Caterer
     fields = ['caterer_name', 'caterer_description','location', 'activate']
 
-    # def form_valid(self, form):
-    #     # form.instance.register = self.request.user
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.register = self.request.user
+        return super().form_valid(form)
     
     def test_func(self):
         caterer = self.get_object()
         return self.request.user == caterer.register 
     
+class MyCatererDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Caterer
+
+    def get_success_url(self):
+        """Dynamically generate the success URL with user_id."""
+        user_id = self.request.user.id
+        return reverse("orders-mycaterer", kwargs={"user_id": user_id})
+    
+    def test_func(self):
+        caterer = self.get_object()
+        return self.request.user == caterer.register
+    
+    def form_valid(self, form):
+        caterer = self.get_object()
+
+        if caterer.menu.all().exists():  
+            messages.error(self.request, "You cannot delete this caterer because it has associated menus.")
+            return redirect(reverse("orders-mycaterer", kwargs={"user_id": caterer.register.id}))
+        
+        return super().form_valid(form)  # Proceed with deletion if no menus exist
