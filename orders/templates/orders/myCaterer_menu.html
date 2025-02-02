@@ -18,9 +18,7 @@
           <th scope="col">Pre-order unit price</th>
           <th scope="col">Available From</th>
           <th scope="col">Available To</th>
-          {% if user.is_authenticated %}
-            <th scope="col"></th>
-          {% endif %}
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -36,16 +34,23 @@
             <td>{{ menu.unit_discount_price }}</td>
             <td>{{ menu.available_from|date:"d/m/Y" }}</td>
             <td>{{ menu.available_to|date:"d/m/Y" }}</td>
-            {% if user.is_authenticated %}
-              <td class="d-flex">
-                <a
-                  class="btn btn-sm btn-primary me-2"
+            <td class="d-flex">
+              <a
+                class="btn btn-sm btn-primary me-2"
+                href="{% url 'orders-mycaterer-menu-update' menu.id%}"
+                role="button"
+                >
+                Update
+              </a>
+            </td>
+            <td class="d-flex">
+              <a
+                class="btn btn-sm btn-primary me-2"
                   {% comment %} href="{% url 'orders-mycaterer-menu' caterer_id=caterer.id %}" {% endcomment %}
                   role="button"
                 >
-                  Update
-                </a>
-              {% endif %}
+                Delete
+              </a>
             </td>
           </tr>
         {% endfor %}

@@ -52,7 +52,7 @@ class OrderMenuByCatererListView(LoginRequiredMixin, ListView):
         formatted_today = timezone.now().date()
         # Filter the Menu objects
         menus = Menu.objects.filter(
-            owner=caterer,
+            caterer=caterer,
             available_to__gte=formatted_today, 
             # available_to__lte=formatted_today
         ).order_by('-available_from')  # Order by available_from descending
@@ -76,12 +76,14 @@ def menu(request):
     }
     return render(request, 'orders/menu.html', context)
 
+
 def about(request):
     return render(request, 'orders/about.html', {'title': 'About'})
 
 
 class MyCatererCreateView(LoginRequiredMixin, CreateView):
     model = Caterer
+    template_name = 'orders/myCaterer_form.html'
     fields = ['caterer_name', 'caterer_description','location']
     success_url = "/"
 
@@ -89,7 +91,11 @@ class MyCatererCreateView(LoginRequiredMixin, CreateView):
         form.instance.register = self.request.user
         return super().form_valid(form)
 
-
+    def get_success_url(self):
+        """Dynamically generate the success URL with user_id."""
+        user_id = self.request.user.id
+        return reverse("orders-mycaterer", kwargs={"user_id": user_id})
+    
 class MyCatererListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Caterer
     template_name = 'orders/myCaterer_list.html'
@@ -139,7 +145,6 @@ class MyCatererDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if caterer.menu.all().exists():  
             messages.error(self.request, "You cannot delete this caterer because it has associated menus.")
             return redirect(reverse("orders-mycaterer", kwargs={"user_id": caterer.register.id}))
-        
         return super().form_valid(form)  # Proceed with deletion if no menus exist
     
 
@@ -155,9 +160,8 @@ class MyCatererMenuListView(LoginRequiredMixin, ListView):
         caterer = get_object_or_404(Caterer, id=caterer_id)
         # Filter the Menu objects
         menus = Menu.objects.filter(
-            owner=caterer,
+            caterer=caterer,
         )
-        
         return menus
 
     def get_context_data(self, **kwargs):
@@ -167,7 +171,6 @@ class MyCatererMenuListView(LoginRequiredMixin, ListView):
         if not hasattr(self, 'caterer'):
             self.caterer = get_object_or_404(Caterer, id=caterer_id)
 
-        # context['caterer_name'] = self.caterer.caterer_name  # Ensure the field exists in your model
         context['caterer'] = self.caterer
         return context
     
@@ -180,15 +183,26 @@ class MyCatererMenuCreateView(LoginRequiredMixin, CreateView):
 
     def get_queryset(self):
         caterer = get_object_or_404(Caterer, register=self.request.user)
-        return Menu.objects.filter(owner=caterer) 
+        return Menu.objects.filter(caterer=caterer) 
     
     def form_valid(self, form):
         caterer_id = self.kwargs.get('caterer_id')
         caterer = get_object_or_404(Caterer, id=caterer_id)
-        form.instance.owner = caterer
+        form.instance.caterer = caterer
+        form.instance.register = self.request.user
         return super().form_valid(form)
+    
     
     def get_success_url(self):
         caterer_id = self.kwargs.get('caterer_id')
         return reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id})
     
+
+class MyCatererMenuUpdateView(LoginRequiredMixin, UpdateView):
+    model = Menu
+    template_name = 'orders/myCaterer_menu_form.html'
+    form_class = MenuCreateForm
+
+    def get_success_url(self):
+        menu = get_object_or_404(Menu, id=int(self.kwargs.get('pk')))
+        return reverse("orders-mycaterer-menu", kwargs={"caterer_id": menu.caterer.id})

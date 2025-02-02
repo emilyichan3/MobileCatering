@@ -5,7 +5,15 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit">Create Menu</button>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">
+                    {% if form.instance.pk %}
+                    Update
+                    {% else %}
+                    Create
+                    {% endif %}
+                </button>
+            </div>
           </form>
         <!-- Changed here, div removed -->
     </div>

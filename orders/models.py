@@ -28,7 +28,8 @@ class Menu(models.Model):
     available_from = models.DateTimeField(default=timezone.now)
     available_to = models.DateTimeField(default=timezone.now)
     sample_image = models.ImageField(default='menu_default.jpg', upload_to='menu_pics', blank=True, null=True)
-    owner = models.ForeignKey(Caterer, on_delete=models.CASCADE, related_name='menu')
+    caterer = models.ForeignKey(Caterer, on_delete=models.CASCADE, related_name='menu')
+    register = models.ForeignKey(User, on_delete=models.CASCADE, related_name='menu')
 
     def __str__(self):
         return f'{ self.product_name }'
