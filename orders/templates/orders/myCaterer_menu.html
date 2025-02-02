@@ -1,6 +1,6 @@
 {% extends "orders/base.html" %}
 {% block content %}
-    <h1>All menu on {{ caterer.caterer_name }}, {{ user.first_name }} a owner!</h1>
+    <h1>All menu on {{ caterer.caterer_name }}, {{ caterer.register.first_name }} a owner!</h1>
     <a
     class="btn btn-sm btn-primary me-2"
     href="{% url 'orders-mycaterer-menu-new' caterer_id=caterer.id%}"
@@ -37,7 +37,7 @@
             <td class="d-flex">
               <a
                 class="btn btn-sm btn-primary me-2"
-                href="{% url 'orders-mycaterer-menu-update' menu.id%}"
+                href="{% url 'orders-mycaterer-menu-update' caterer_id=menu.caterer.id pk=menu.id %}"
                 role="button"
                 >
                 Update
@@ -46,7 +46,7 @@
             <td class="d-flex">
               <a
                 class="btn btn-sm btn-primary me-2"
-                  {% comment %} href="{% url 'orders-mycaterer-menu' caterer_id=caterer.id %}" {% endcomment %}
+                  href="{% url 'orders-mycaterer-menu-delete' caterer_id=menu.caterer.id pk=menu.id %}"
                   role="button"
                 >
                 Delete

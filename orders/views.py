@@ -192,7 +192,6 @@ class MyCatererMenuCreateView(LoginRequiredMixin, CreateView):
         form.instance.register = self.request.user
         return super().form_valid(form)
     
-    
     def get_success_url(self):
         caterer_id = self.kwargs.get('caterer_id')
         return reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id})
@@ -206,3 +205,26 @@ class MyCatererMenuUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         menu = get_object_or_404(Menu, id=int(self.kwargs.get('pk')))
         return reverse("orders-mycaterer-menu", kwargs={"caterer_id": menu.caterer.id})
+    
+
+class MyCatererMenuDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Menu
+    template_name = 'orders/myCaterer_menu_confirm_delete.html'
+
+    def get_success_url(self):
+        caterer_id = self.kwargs.get('caterer_id')
+        return reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id})
+    
+    def test_func(self):
+        caterer = self.get_object()
+        return self.request.user == caterer.register
+    
+    def form_valid(self, form):
+        caterer_id = self.kwargs.get('caterer_id')
+        menu = self.get_object()
+
+        if menu.orders.all().exists():  
+            messages.error(self.request, "You cannot delete this menu because it has associated orders.")
+            return redirect(reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id}))
+        return super().form_valid(form)  # Proceed with deletion if no menus exist
+    

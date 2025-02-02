@@ -18,7 +18,7 @@
             <td>{{ caterer.caterer_description }}</td>
             <td>{{ caterer.location }}</td>
             <td>{% if caterer.activate %}Opening{% else %}Closed{% endif %}</td>
-            <td>Link: {{ caterer.register.id }} </td>
+            <td>Link: {{ caterer.register.first_name }} </td>
             <td class="d-flex">
               <a
                 class="btn btn-sm btn-primary me-2"
