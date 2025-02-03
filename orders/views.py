@@ -298,4 +298,22 @@ class MyCatererMenuDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
             messages.error(self.request, "You cannot delete this menu because it has associated orders.")
             return redirect(reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id}))
         return super().form_valid(form)  # Proceed with deletion if no menus exist
+
+
+class MyCatererMenuOrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Order
+    template_name = 'orders/myCaterer_menu_orders.html'
+    context_object_name = 'orders'
     
+    def get_queryset(self):
+        menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
+        # Filter the Caterer objects
+        orders = Order.objects.filter(
+            menu=menu,
+        )
+        return orders
+    
+    def test_func(self):
+        caterer_id = self.kwargs.get('caterer_id') 
+        caterer = get_object_or_404(Caterer, id=caterer_id)
+        return self.request.user == caterer.register  # Check if the logged-in user is the caterer

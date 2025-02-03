@@ -13,7 +13,8 @@ from .views import (
     MyCatererMenuListView,
     MyCatererMenuCreateView,
     MyCatererMenuUpdateView,
-    MyCatererMenuDeleteView
+    MyCatererMenuDeleteView,
+    MyCatererMenuOrderListView
 )
 from . import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -35,6 +36,7 @@ urlpatterns = [
     path('myCaterer/<int:caterer_id>/menu/new/', MyCatererMenuCreateView.as_view(), name='orders-mycaterer-menu-new'),
     path('myCaterer/<int:caterer_id>/menu/<int:pk>/update/', MyCatererMenuUpdateView.as_view(), name='orders-mycaterer-menu-update'),
     path('myCaterer/<int:caterer_id>/menu/<int:pk>/delete/', MyCatererMenuDeleteView.as_view(), name='orders-mycaterer-menu-delete'),
+    path('myCaterer/<int:caterer_id>/menu/<int:menu_id>/orders/', MyCatererMenuOrderListView.as_view(), name='orders-mycaterer-menu-orders'),
 ]
 
 # below code is for app's iamges using static method

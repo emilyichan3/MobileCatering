@@ -52,6 +52,15 @@
                 Delete
               </a>
             </td>
+            <td class="d-flex">
+              <a
+                class="btn btn-sm btn-primary me-2"
+                href="{% url 'orders-mycaterer-menu-orders' caterer_id=menu.caterer.id menu_id=menu.id %}"
+                role="button"
+              >
+                Orders
+              </a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
