@@ -17,7 +17,7 @@ from django.contrib.auth.models import User #The user model will be the sender
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
-from .forms import MenuCreateForm
+from .forms import MenuCreateForm, OrderCreateForm
 
 User = get_user_model()
 
@@ -27,16 +27,79 @@ class CatererListView(ListView):
     context_object_name = 'caterers'
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Order
-    template_name = 'orders/myorder.html' # we can define the template either here or in the urls
+    template_name = 'orders/myOrder_list.html' # we can define the template either here or in the urls
     context_object_name = 'orders'
-    ordering = ['-order_at']
+    
+    def get_queryset(self):
+        user = get_object_or_404(User, id=self.kwargs.get('user_id'))
+        # Filter the Caterer objects
+        orders = Order.objects.filter(
+            customer=user,
+        ).order_by('pick_up_at')
+        return orders
+    
+    def test_func(self):
+        return self.request.user.id == self.kwargs.get('user_id')
 
 
-class OrderDetailView(DetailView):
+class OrderCreatelView(LoginRequiredMixin, CreateView):
     model = Order
+    template_name = 'orders/myOrder_form.html'
+    form_class = OrderCreateForm
 
+    def get_success_url(self):
+        return reverse("orders-myorder", kwargs={"user_id": self.request.user.id})
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
+        kwargs['menu'] = menu  # Pass menu instance to form
+        return kwargs
+    
+    def form_valid(self, form):
+        menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
+        form.instance.menu = menu
+        form.instance.customer = self.request.user
+        form.instance.status = "Ordered - Waiting for the comfirmation"
+        return super().form_valid(form)
+    
+
+class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Order
+    template_name = 'orders/myOrder_form.html'
+    form_class = OrderCreateForm
+
+    def get_success_url(self):
+        return reverse("orders-myorder", kwargs={"user_id": self.request.user.id})
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Fetch the related menu from the existing order instance
+        menu = get_object_or_404(Menu, id=self.object.menu.id)
+        kwargs['menu'] = menu  # Pass menu instance to form
+        return kwargs
+        
+    def test_func(self):
+        order = self.get_object()
+        return self.request.user == order.customer 
+
+
+class OrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Order
+    template_name = 'orders/myOrder_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse("orders-myorder", kwargs={"user_id": self.request.user.id})
+   
+    def test_func(self):
+        order = self.get_object()
+        return self.request.user == order.customer 
+           
+    def form_valid(self, form):
+        return super().form_valid(form)  # Proceed with deletion if no menus exist
+    
 
 class OrderMenuByCatererListView(LoginRequiredMixin, ListView):
     model = Menu
@@ -148,7 +211,7 @@ class MyCatererDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super().form_valid(form)  # Proceed with deletion if no menus exist
     
 
-class MyCatererMenuListView(LoginRequiredMixin, ListView):
+class MyCatererMenuListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Menu
     template_name = 'orders/myCaterer_menu.html'
     context_object_name = 'menus'
@@ -174,6 +237,11 @@ class MyCatererMenuListView(LoginRequiredMixin, ListView):
         context['caterer'] = self.caterer
         return context
     
+    def test_func(self):
+        caterer_id = self.kwargs.get('caterer_id') 
+        caterer = get_object_or_404(Caterer, id=caterer_id)
+        return self.request.user == caterer.register  # Check if the logged-in user is the caterer
+
 
 class MyCatererMenuCreateView(LoginRequiredMixin, CreateView):
     model = Menu
@@ -197,7 +265,7 @@ class MyCatererMenuCreateView(LoginRequiredMixin, CreateView):
         return reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id})
     
 
-class MyCatererMenuUpdateView(LoginRequiredMixin, UpdateView):
+class MyCatererMenuUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Menu
     template_name = 'orders/myCaterer_menu_form.html'
     form_class = MenuCreateForm
@@ -206,7 +274,10 @@ class MyCatererMenuUpdateView(LoginRequiredMixin, UpdateView):
         menu = get_object_or_404(Menu, id=int(self.kwargs.get('pk')))
         return reverse("orders-mycaterer-menu", kwargs={"caterer_id": menu.caterer.id})
     
-
+    def test_func(self):
+        caterer = self.get_object()
+        return self.request.user == caterer.register 
+    
 class MyCatererMenuDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Menu
     template_name = 'orders/myCaterer_menu_confirm_delete.html'

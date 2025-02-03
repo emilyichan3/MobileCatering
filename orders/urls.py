@@ -1,7 +1,9 @@
 from django.urls import path
 from .views import (
     OrderListView,
-    OrderDetailView,
+    OrderCreatelView,
+    OrderUpdateView,
+    OrderDeleteView,
     OrderMenuByCatererListView,
     CatererListView,
     MyCatererCreateView,
@@ -18,11 +20,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path("", CatererListView.as_view(), name='orders-home'),
-    path("myOrder", OrderListView.as_view(), name='orders-myorder'),
-    path('order/<int:pk>', OrderDetailView.as_view(), name='orders-detail'),
-    path('about/',views.about, name='orders-about'),
     path("menu", views.menu, name="orders-menu"),
     path('menu/caterer/<int:caterer_id>/', OrderMenuByCatererListView.as_view(), name='orders-menu-by-caterer'),
+    path("myOrder/<int:user_id>/", OrderListView.as_view(), name='orders-myorder'),
+    path('myOrder/<int:menu_id>/new/', OrderCreatelView.as_view(), name='orders-myorder-new'),
+    path('myOrder/<int:pk>/update/', OrderUpdateView.as_view(), name='orders-myorder-update'),
+    path('myOrder/<int:pk>/delete/', OrderDeleteView.as_view(), name='orders-myorder-delete'),
+    path('about/',views.about, name='orders-about'),
     path('myCaterer/<int:user_id>/', MyCatererListView.as_view(), name='orders-mycaterer'),
     path('myCaterer/new/', MyCatererCreateView.as_view(), name='orders-mycaterer-new'),
     path('myCaterer/<int:pk>/update/', MyCatererUpdateView.as_view(), name='orders-mycaterer-update'),

@@ -1,0 +1,21 @@
+{% extends "orders/base.html" %}
+{% load crispy_forms_tags %} <!-- Updated here to load crispy forms -->
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            <h2>Menu Details</h2>
+            {% csrf_token %}    
+            {{ form|crispy }} <!-- Updated to load the form and let crispy take care of the --> 
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">
+                    {% if form.instance.pk %}
+                    Update
+                    {% else %}
+                    Create
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+        <!-- Changed here, div removed -->
+    </div>
+{% endblock content %}

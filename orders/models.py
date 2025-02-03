@@ -20,8 +20,8 @@ class Caterer(models.Model):
     
 
 class Menu(models.Model):
-    product_name = models.CharField(max_length=20)
-    product_description = models.CharField(max_length=100)
+    product_name = models.CharField(max_length=60)
+    product_description = models.CharField(max_length=200)
     unit_price = models.DecimalField(max_digits=5, decimal_places=2)
     unit_discount_price = models.DecimalField(max_digits=5, decimal_places=2)
     max_serve_qualities = models.IntegerField()
@@ -35,10 +35,12 @@ class Menu(models.Model):
         return f'{ self.product_name }'
     
 class Order(models.Model):
-    product_name = models.CharField(max_length=100)
+    product_name = models.CharField(max_length=60)
     order_qualities = models.IntegerField()
     unit_discount_price = models.DecimalField(max_digits=5, decimal_places=2)
-    status = models.CharField(max_length=200)
+    pick_up_at = models.DateTimeField(default=timezone.now)
+    comment = models.CharField(max_length=100)
+    status = models.CharField(max_length=60)
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='orders')
     order_at = models.DateTimeField(default=timezone.now)
