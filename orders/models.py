@@ -17,7 +17,7 @@ class Caterer(models.Model):
     
     def get_absolute_url(self):
         return reverse('orders-mycaterer', kwargs={'user_id': self.register.id})
-    
+
 
 class Menu(models.Model):
     product_name = models.CharField(max_length=60)

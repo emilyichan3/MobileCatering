@@ -27,7 +27,9 @@
               <a class="nav-item nav-link" href="{% url 'orders-menu' %}">Menu</a>
               {% if user.is_authenticated %}
                 <a class="nav-item nav-link" href="{% url 'orders-myorder' user_id=user.id %}">My Orders</a>
-                <a class="nav-item nav-link" href="{% url 'orders-mycaterer' user_id=user.id %}">My Caterer</a>
+                {% if can_create_caterer  %}
+                  <a class="nav-item nav-link" href="{% url 'orders-mycaterer' user_id=user.id %}">My Caterer</a>
+                {% endif %}
               {% endif %}
               <a class="nav-item nav-link" href="{% url 'orders-about' %}">About</a>
             </div>

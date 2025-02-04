@@ -3,12 +3,11 @@ from django.http import HttpResponse
 from .models import Order, Menu, Caterer
 from django.views.generic import (
     ListView,
-    DetailView,
     CreateView,
     UpdateView,
     DeleteView
 )
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.utils import timezone
@@ -18,6 +17,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 from .forms import MenuCreateForm, OrderCreateForm
+from django.contrib.auth.decorators import permission_required
 
 User = get_user_model()
 
@@ -133,22 +133,34 @@ class OrderMenuByCatererListView(LoginRequiredMixin, ListView):
         return context
 
 
-def menu(request):
-    context = {
-       'menus': Menu.objects.all()
-    }
-    return render(request, 'orders/menu.html', context)
+class menu(ListView):
+    model = Menu
+    template_name = 'orders/menu.html'
+    context_object_name = 'menus'
+
+    def get_queryset(self):
+
+        formatted_today = timezone.now().date()
+        # Filter the Menu objects
+        menus = Menu.objects.filter(
+            available_to__gte=formatted_today, 
+            # available_to__lte=formatted_today
+        )
+        
+        return menus
 
 
 def about(request):
     return render(request, 'orders/about.html', {'title': 'About'})
 
 
-class MyCatererCreateView(LoginRequiredMixin, CreateView):
+class MyCatererCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Caterer
     template_name = 'orders/myCaterer_form.html'
     fields = ['caterer_name', 'caterer_description','location']
     success_url = "/"
+
+    permission_required = 'orders.add_caterer'  # Ensure correct app_label
 
     def form_valid(self, form):
         form.instance.register = self.request.user
@@ -158,12 +170,13 @@ class MyCatererCreateView(LoginRequiredMixin, CreateView):
         """Dynamically generate the success URL with user_id."""
         user_id = self.request.user.id
         return reverse("orders-mycaterer", kwargs={"user_id": user_id})
+
     
 class MyCatererListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Caterer
     template_name = 'orders/myCaterer_list.html'
     context_object_name = 'caterers'
-    
+
     def get_queryset(self):
         user = get_object_or_404(User, id=self.kwargs.get('user_id'))
         # Filter the Caterer objects
@@ -175,6 +188,11 @@ class MyCatererListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return self.request.user.id == self.kwargs.get('user_id')
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     # Check if the user has the permission to create a caterer
+    #     context['can_create_caterer'] = self.request.user.has_perm('orders.add_caterer')
+    #     return context
 
 class MyCatererUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Caterer
@@ -243,7 +261,7 @@ class MyCatererMenuListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user == caterer.register  # Check if the logged-in user is the caterer
 
 
-class MyCatererMenuCreateView(LoginRequiredMixin, CreateView):
+class MyCatererMenuCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Menu
     template_name = 'orders/myCaterer_menu_form.html'
     form_class = MenuCreateForm
@@ -264,6 +282,10 @@ class MyCatererMenuCreateView(LoginRequiredMixin, CreateView):
         caterer_id = self.kwargs.get('caterer_id')
         return reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id})
     
+    def test_func(self):
+        caterer_id = self.kwargs.get('caterer_id') 
+        caterer = get_object_or_404(Caterer, id=caterer_id)
+        return self.request.user == caterer.register  # Check if the logged-in user is the caterer
 
 class MyCatererMenuUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Menu

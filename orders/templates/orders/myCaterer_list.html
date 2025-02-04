@@ -1,12 +1,18 @@
 {% extends "orders/base.html" %}
 {% block content %}
-      <a
-                class="btn btn-sm btn-primary me-2"
-                href="{% url 'orders-mycaterer-new' %}"
-                role="button"
-              >
-                Create New Caterer
-              </a>
+  {% if can_create_caterer  %}
+    <a
+    class="btn btn-sm btn-primary me-2"
+    href="{% url 'orders-mycaterer-new' %}"
+    role="button"
+  >
+    Create New Caterer
+  </a>
+  {% else %}
+      <!-- Optionally, show a message if the user doesn't have permission -->
+      <p>You don't have permission to create a new caterer</p>
+  {% endif %}
+
     <table class="table table-striped table-hover">
       <thead>
         <tr>
