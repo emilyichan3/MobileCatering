@@ -1,14 +1,12 @@
 from django import forms
-# from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm #Inheritance Relationship
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Profile
-
+from datetime import date
+from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-# from django.contrib.auth.validators import UnicodeUsernameValidator
+
 
 User = get_user_model()
 # xxx/admin/
@@ -40,6 +38,12 @@ class UserRegisterForm(UserCreationForm):
         model = Profile
         fields = ['email', "first_name", "last_name", 'password1', 'password2', 'dob']
 
+    def clean_dob(self):
+        dob = self.cleaned_data.get("dob")
+        if dob and dob > date.today():
+            raise ValidationError("Date of birth cannot be in the future.")
+        return dob
+
 
 class ProfileUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length=150)
@@ -50,5 +54,9 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ["first_name", "last_name",'image', 'dob']
 
-
+    def clean_dob(self):
+        dob = self.cleaned_data.get("dob")
+        if dob and dob > date.today():
+            raise ValidationError("Date of birth cannot be in the future.")
+        return dob
 
