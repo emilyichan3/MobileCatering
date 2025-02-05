@@ -10,7 +10,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Profile #We want to import Profile from our models as we we will be creating a new profile
 from django.contrib.auth.models import User #The user model will be the sender
-
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 # Create your views here.

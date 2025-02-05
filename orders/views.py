@@ -18,6 +18,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 from .forms import MenuCreateForm, OrderCreateForm
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -63,6 +64,9 @@ class OrderCreatelView(LoginRequiredMixin, CreateView):
         form.instance.menu = menu
         form.instance.customer = self.request.user
         form.instance.status = "Ordered - Waiting for the comfirmation"
+        if form.instance.pick_up_at > menu.available_to:
+            messages.error(self.request, f"The pick-up date cannot be after the menu's available date: {menu.available_to.strftime('%Y-%m-%d')}.")
+            return redirect(reverse("orders-myorder-new", kwargs={"menu_id": self.kwargs.get('menu_id')}))
         return super().form_valid(form)
     
 
@@ -84,7 +88,14 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         order = self.get_object()
         return self.request.user == order.customer 
-
+    
+    def form_valid(self, form):
+        menu = get_object_or_404(Menu, id=self.object.menu.id)
+        if form.instance.pick_up_at > menu.available_to:
+            messages.error(self.request, f"The pick-up date cannot be after the menu's available date: {menu.available_to.strftime('%Y-%m-%d')}.")
+            return redirect(reverse("orders-myorder-update", kwargs={"pk":self.kwargs.get('pk')}))
+        return super().form_valid(form)
+  
 
 class OrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Order
@@ -188,11 +199,6 @@ class MyCatererListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return self.request.user.id == self.kwargs.get('user_id')
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     # Check if the user has the permission to create a caterer
-    #     context['can_create_caterer'] = self.request.user.has_perm('orders.add_caterer')
-    #     return context
 
 class MyCatererUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Caterer
