@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from .models import Menu, Order
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 
 User = get_user_model()
 
@@ -20,7 +21,6 @@ class MenuCreateForm(forms.ModelForm):
                 'product_description',
                 'unit_price',
                 'unit_discount_price',
-                'max_serve_qualities',
                 'available_from',
                 'available_to',
                 'sample_image']
@@ -44,7 +44,7 @@ class OrderCreateForm(forms.ModelForm):
     product_name = forms.CharField(max_length=60)
     unit_price = forms.DecimalField(max_digits=5, decimal_places=2)
     unit_discount_price = forms.DecimalField(max_digits=5, decimal_places=2)
-    order_qualities = forms.IntegerField()
+    order_qualities = forms.IntegerField(validators=[MinValueValidator(1)])
     pick_up_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     comment = forms.CharField(required=False, max_length=100)
 

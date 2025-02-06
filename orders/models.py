@@ -24,7 +24,6 @@ class Menu(models.Model):
     product_description = models.CharField(max_length=200)
     unit_price = models.DecimalField(max_digits=5, decimal_places=2)
     unit_discount_price = models.DecimalField(max_digits=5, decimal_places=2)
-    max_serve_qualities = models.IntegerField()
     available_from = models.DateTimeField(default=timezone.now)
     available_to = models.DateTimeField(default=timezone.now)
     sample_image = models.ImageField(default='menu_default.jpg', upload_to='menu_pics', blank=True, null=True)

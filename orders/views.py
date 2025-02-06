@@ -213,6 +213,7 @@ class MyCatererUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         caterer = self.get_object()
         return self.request.user == caterer.register 
     
+    
 class MyCatererDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Caterer
     template_name = 'orders/myCaterer_confirm_delete.html'
@@ -305,6 +306,15 @@ class MyCatererMenuUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
     def test_func(self):
         caterer = self.get_object()
         return self.request.user == caterer.register 
+    
+    def form_valid(self, form):
+        caterer_id = self.kwargs.get('caterer_id')
+        menu = self.get_object()
+
+        if menu.orders.all().exists():  
+            messages.error(self.request, "You cannot update this menu because it has associated orders.")
+            return redirect(reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id}))
+        return super().form_valid(form)  
     
 class MyCatererMenuDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Menu
