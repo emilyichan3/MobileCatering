@@ -54,10 +54,18 @@ class OrderCreatelView(LoginRequiredMixin, CreateView):
         return reverse("orders-myorder", kwargs={"user_id": self.request.user.id})
     
     def get_form_kwargs(self):
+        # Pass menu instance to form
         kwargs = super().get_form_kwargs()
         menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
-        kwargs['menu'] = menu  # Pass menu instance to form
+        kwargs['menu'] = menu 
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        # Pass menu instance to template
+        context = super().get_context_data(**kwargs)
+        self.menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
+        context['menu'] = self.menu
+        return context
     
     def form_valid(self, form):
         menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
@@ -79,12 +87,19 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse("orders-myorder", kwargs={"user_id": self.request.user.id})
     
     def get_form_kwargs(self):
+        # Pass menu instance to form
         kwargs = super().get_form_kwargs()
-        # Fetch the related menu from the existing order instance
         menu = get_object_or_404(Menu, id=self.object.menu.id)
-        kwargs['menu'] = menu  # Pass menu instance to form
+        kwargs['menu'] = menu  
         return kwargs
-        
+
+    def get_context_data(self, **kwargs):
+        # Pass menu instance to template
+        context = super().get_context_data(**kwargs)
+        self.menu = get_object_or_404(Menu, id=self.object.menu.id)
+        context['menu'] = self.menu
+        return context
+    
     def test_func(self):
         order = self.get_object()
         return self.request.user == order.customer 

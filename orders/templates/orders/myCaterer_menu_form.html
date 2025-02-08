@@ -2,6 +2,13 @@
 {% load crispy_forms_tags %} <!-- Updated here to load crispy forms -->
 {% block content %}
     <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ menu.sample_image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{ menu.caterer.caterer_name }}</h2>
+                <p class="text-secondary">Caterer || {{ menu.register.first_name }} || {{ menu.register }}</p>
+            </div>
+        </div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}

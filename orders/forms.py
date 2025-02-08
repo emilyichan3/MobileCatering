@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 # from crispy_forms.helper import FormHelper
 # from crispy_forms.layout import Submit
 from .models import Menu, Order
-from datetime import date
+from datetime import date, timedelta
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 
@@ -24,6 +24,15 @@ class MenuCreateForm(forms.ModelForm):
                 'available_from',
                 'available_to',
                 'sample_image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if not self.instance.pk:  
+            # Only set default for new forms, not existing ones
+            self.fields['available_from'].initial = date.today()
+            # Default available_to is 14 days
+            self.fields['available_to'].initial = date.today() + timedelta(days=14)  
 
     def clean(self):
         cleaned_data = super().clean()
