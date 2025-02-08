@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, 
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.utils import timezone
-from datetime import date
+from datetime import date, timedelta
 from django.contrib.auth.models import User #The user model will be the sender
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -165,12 +165,10 @@ class menu(ListView):
     context_object_name = 'menus'
 
     def get_queryset(self):
-
         formatted_today = timezone.now().date()
         # Filter the Menu objects
         menus = Menu.objects.filter(
             available_to__gte=formatted_today, 
-            # available_to__lte=formatted_today
         )
         
         return menus
@@ -325,10 +323,11 @@ class MyCatererMenuUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
     def form_valid(self, form):
         caterer_id = self.kwargs.get('caterer_id')
         menu = self.get_object()
-
-        if menu.orders.all().exists():  
-            messages.error(self.request, "You cannot update this menu because it has associated orders.")
+       
+        if any(form.instance.available_to < order.pick_up_at for order in menu.orders.all()):
+            messages.error(self.request, "You cannot update this menu because some orders has pick_up_at greater than available date.")
             return redirect(reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id}))
+
         return super().form_valid(form)  
     
 class MyCatererMenuDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

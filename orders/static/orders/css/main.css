@@ -1,0 +1,341 @@
+:root {
+  --main-bg-color: #f8f8f8;
+}
+
+
+body {
+    background: var(--wrap-bg-color);
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #444444;
+  }
+  
+  ul {
+    margin: 0;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+/* custom CSS */
+footer {
+  bottom: 0;
+  background-color: #066103;
+  color: #ffffff;
+  font-size: 100%;
+  text-align: center;
+  padding: 0;
+}
+
+footer a{
+  color: #FFFF00;
+}
+footer p{
+  padding: 0;
+  margin: 0;
+  line-height: 150%;
+}
+
+table {
+  overflow:scroll; 
+}
+
+.TeamTable .TableWrap{ 
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  overflow:scroll; 
+}
+
+.group-form a {
+  color: #0c0c0c;
+  text-decoration: none;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;    
+}
+.group-form a:hover {
+  text-decoration: underline;
+}
+.group-container table {
+  width: 70%;
+  height: 100%;
+  border-collapse: collapse;
+  /* margin-bottom: 20px; */
+}
+
+.group-container tbody {
+  background-color: #fff;
+  display: block;
+}
+.group-container tfoot {
+  background-color: #fcfbeb;
+  display: block;
+  display: flex; /* Enable Flexbox */
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content (optional) */
+  text-align: center; /* Fallback for centering text */
+}
+
+.group-form th, .group-form td {
+  border: 0px;
+  padding: 2px;
+  text-align: center;
+  /* height: 50px; */
+}
+
+.menu-img {
+  height: 225px;
+  width: 225px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+.group-container {
+  box-shadow: 0 0 10px rgb(0, 0, 0, 0.2);
+}
+.group-layout {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  justify-content:center;
+  gap: 1rem;
+}
+
+.group-layout form{
+  border: #a50d0d;
+  width: 100%;
+}
+.group-container {
+  border: none;
+  margin-bottom: 5px;
+}
+.group-container .group-form {
+  text-align: left;
+  max-width: 350px;
+  min-height: fit-content;
+}
+.group-container .group-form table {
+  border-radius: 3px;
+  border: #a50d0d !important;
+}
+
+.context-overflow {
+  width: 350px;           /* Set the desired width */
+  overflow-wrap: anywhere;
+  line-height: 1.5em;     /* Set the line height (e.g., 1.5 times the font size) */
+  max-height: 4.5em;      /* Limit the height to 3 lines (line-height * 3) */
+  overflow: hidden;       /* Hide the overflowing content */
+  text-overflow: ellipsis; /* Optional: Add ellipsis for truncated text */
+  display: -webkit-box;   /* Required for limiting lines with WebKit */
+  -webkit-box-orient: vertical; /* Required for limiting lines with WebKit */
+  -webkit-line-clamp: 3;  /* Limit to 3 lines */
+}
+
+.link_line {
+  display: flex;
+  gap: 20px; 
+  align-items: center; 
+}
+
+.link_line a {
+  text-decoration: none; 
+  color: blue; 
+}
+
+.link_line a:hover {
+  color: darkblue; 
+}
+
+.link_forcus {
+  font-weight: bold;
+}
+.table-layout {
+  table-layout: fixed;
+}
+
+@media (min-width: 650px) {
+  .group-layout {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content:center;
+    gap: 1rem;
+  }
+  .group-layout .table-layout {
+    width: 80%;
+  }
+
+  .group-container .group-form {
+    text-align: center;
+    width: 350px;
+    height: 200px;
+    border: none;
+  }
+
+  .context-overflow {
+    width: 350px;           /* Set the desired width */
+    overflow-wrap: anywhere;
+    line-height: 1.5em;     /* Set the line height (e.g., 1.5 times the font size) */
+    max-height: 4.5em;      /* Limit the height to 3 lines (line-height * 3) */
+    overflow: hidden;       /* Hide the overflowing content */
+    text-overflow: ellipsis; /* Optional: Add ellipsis for truncated text */
+    display: -webkit-box;   /* Required for limiting lines with WebKit */
+    -webkit-box-orient: vertical; /* Required for limiting lines with WebKit */
+    -webkit-line-clamp: 3;  /* Limit to 3 lines */
+  }
+  .group-container table {
+    margin-bottom: 20px;
+  }
+  
+  .group-container thead, tfoot {
+    display: table; /* Keep these as table elements */
+    width: 100%; /* Required for proper table layout */
+  }
+  .group-container tbody {
+    /* background-color:rgb(236, 236, 221); */
+    display: block;
+    height: 80%; /* Assign 80% height */
+  }
+  
+  .group-container tfoot {
+    display: block;
+    height: 20%; /* Assign 20% height */
+    display: flex; /* Enable Flexbox */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content (optional) */
+    text-align: center; /* Fallback for centering text */
+  }
+}
+
+
+@media (min-width: 992px) {
+  .group-layout {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content:center;
+    gap: 1rem;
+  }
+  .group-layout .table-layout {
+    width: 80%;
+  }
+
+  .group-container .group-form {
+    text-align: center;
+    width: 350px !important;
+    height: 200px;
+    border: none;
+  }
+
+  .context-overflow {
+    width: 350px;           /* Set the desired width */
+    overflow-wrap: anywhere;
+    line-height: 1.5em;     /* Set the line height (e.g., 1.5 times the font size) */
+    max-height: 4.5em;      /* Limit the height to 3 lines (line-height * 3) */
+    overflow: hidden;       /* Hide the overflowing content */
+    text-overflow: ellipsis; /* Optional: Add ellipsis for truncated text */
+    display: -webkit-box;   /* Required for limiting lines with WebKit */
+    -webkit-box-orient: vertical; /* Required for limiting lines with WebKit */
+    -webkit-line-clamp: 3;  /* Limit to 3 lines */
+  }
+  .group-container table {
+    margin-bottom: 20px;
+  }
+  
+  .group-container thead, tfoot {
+    display: table; /* Keep these as table elements */
+    width: 100%; /* Required for proper table layout */
+  }
+  .group-container tbody {
+    display: block;
+    height: 80%; /* Assign 80% height */
+  }
+  
+  .group-container tfoot {
+    display: block;
+    height: 20%; /* Assign 20% height */
+    display: flex; /* Enable Flexbox */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content (optional) */
+    text-align: center; /* Fallback for centering text */
+  }  
+}

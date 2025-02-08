@@ -12,15 +12,15 @@
       <!-- Optionally, show a message if the user doesn't have permission -->
       <p>You don't have permission to create a new caterer</p>
   {% endif %}
-
+  <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th scope="col">Caterer</th>
-          <th scope="col">Description</th>
-          <th scope="col">Location</th>
-          <th scope="col">Activate</th>
-          <th scope="col"></th>
+          <th width="20%">Caterer</th>
+          <th width="40%">Description</th>
+          <th width="20%">Location</th>
+          <th width="10%">Activate</th>
+          <th width="10%"></th>
         </tr>
       </thead>
       <tbody>
@@ -61,5 +61,6 @@
 
         {% endfor %}
       </tbody>
-    </table>
+    </table>    
+  </div>
 {% endblock content %}
