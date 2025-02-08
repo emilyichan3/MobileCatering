@@ -71,7 +71,7 @@ class OrderCreatelView(LoginRequiredMixin, CreateView):
         menu = get_object_or_404(Menu, id=self.kwargs.get('menu_id'))
         form.instance.menu = menu
         form.instance.customer = self.request.user
-        form.instance.status = "Ordered - Waiting for the comfirmation"
+        form.instance.status = "Ordered"
         if form.instance.pick_up_at > menu.available_to:
             messages.error(self.request, f"The pick-up date cannot be after the menu's available date: {menu.available_to.strftime('%Y-%m-%d')}.")
             return redirect(reverse("orders-myorder-new", kwargs={"menu_id": self.kwargs.get('menu_id')}))

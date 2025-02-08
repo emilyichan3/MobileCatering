@@ -115,17 +115,29 @@ footer p{
   line-height: 150%;
 }
 
+.menu-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+
 table {
   overflow:scroll; 
 }
 
-.TeamTable .TableWrap{ 
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  overflow:scroll; 
+.custom-gap {
+  padding: 5px;
 }
 
+.custom-btn {
+  width: 70px; 
+  height: 30px; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+}
 .group-form a {
   color: #0c0c0c;
   text-decoration: none;

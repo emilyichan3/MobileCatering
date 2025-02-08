@@ -5,12 +5,10 @@
       <thead>
         <tr>
           <th scope="col">Order Number</th>
-          <th scope="col">Name</th>
-          <th scope="col">Unit Discount Price</th>
+          <th scope="col">Product</th>
+          <th scope="col">Pre-Order Price</th>
           <th scope="col">Quality</th>
-          <th scope="col">Comment</th>
           <th scope="col">Pick up at</th>
-          <th scope="col">Status</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -21,26 +19,26 @@
             <td>{{ order.product_name }}</td>
             <td>{{ order.unit_discount_price }}</td>
             <td>{{ order.order_qualities }}</td>
-            <td>{{ order.comment }}</td>
             <td>{{ order.pick_up_at|date:'d/m/Y' }}</td>
-            <td>{{ order.status }}</td>
-            <td class="d-flex">
+            <td >
+              <div class="d-flex custom-gap">
               <a
-                class="btn btn-sm btn-primary me-2"
+                class="btn btn-sm btn-primary me-2 custom-btn"
                 href="{% url 'orders-myorder-update' order.id %}"
                 role="button"
               >
-                Update
+                Details
               </a>
-            </td>
-            <td class="d-flex">
+            </div>
+            <div class="d-flex custom-gap">
               <a
-                class="btn btn-sm btn-primary me-2"
+                class="btn btn-sm btn-danger me-2 custom-btn"
                 href="{% url 'orders-myorder-delete' order.id %}"
                 role="button"
               >
                 Delete
               </a>
+            </div>
             </td>
           </tr>
         {% endfor %}

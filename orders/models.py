@@ -7,8 +7,8 @@ User = get_user_model()
 
 class Caterer(models.Model):
     caterer_name = models.CharField(max_length=60)
-    caterer_description = models.TextField()
-    location = models.CharField(max_length=200)
+    caterer_description = models.CharField(max_length=200)
+    location = models.CharField(max_length=120)
     activate = models.BooleanField(default=True)
     register = models.ForeignKey(User, on_delete=models.CASCADE, related_name='caterer')
     
