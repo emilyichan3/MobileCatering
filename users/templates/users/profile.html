@@ -3,7 +3,8 @@
 {% block content %}
 <div class="content-section">
     <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.image.url }}">
+        {% comment %} <img class="rounded-circle account-img" src="{{ user.image.url }}"> {% endcomment %}
+        <img class="rounded-circle account-img" src="{{ user.get_image_url }}">
         <div class="media-body">
             <h2 class="account-heading">{{ user.first_name }}</h2>
             <p class="text-secondary">{{ user.email }}</p>

@@ -50,7 +50,6 @@
         <div class="col-md-12">
           {% if messages %}
             {% for message in messages %}
-              code: {{ message.tags }}
               {% if message.tags == 'error' %}
                 <div class="alert alert-block alert-danger"> 
                   <ul class="m-0"> 

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
 AUTH_USER_MODEL = "users.Profile"
@@ -150,3 +152,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER'] # Login email address, Stored as an environment varaible
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD'] # App Password set from gmail, Stored as an environment varaible
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dgwyy8rtk',
+    'API_KEY': '378242254837915',
+    'API_SECRET': 'cwEo7HjGfKSzWmWwxfnUWMMZveg',
+}

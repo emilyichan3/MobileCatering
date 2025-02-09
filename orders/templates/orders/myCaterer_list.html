@@ -32,21 +32,21 @@
             <td>{% if caterer.activate %}Opening{% else %}Closed{% endif %}</td>
             <td>
               <div class="d-flex custom-gap">
+                <a
+                  class="btn btn-sm btn-primary me-2 custom-btn"
+                  href="{% url 'orders-mycaterer-menu' caterer_id=caterer.id %}"
+                  role="button"
+                >
+                  Menu
+                </a>
+              </div>
+              <div class="d-flex custom-gap">
               <a
                 class="btn btn-sm btn-primary me-2 custom-btn"
                 href="{% url 'orders-mycaterer-update' caterer.id %}"
                 role="button"
               >
                 Update
-              </a>
-            </div>
-              <div class="d-flex custom-gap">
-              <a
-                class="btn btn-sm btn-primary me-2 custom-btn"
-                href="{% url 'orders-mycaterer-menu' caterer_id=caterer.id %}"
-                role="button"
-              >
-                Menu
               </a>
             </div>
             <div class="d-flex custom-gap">
