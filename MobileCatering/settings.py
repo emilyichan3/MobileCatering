@@ -27,7 +27,7 @@ SECRET_KEY = os.environ['SECRET_KEY'] # Stored as an environment variable
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'TRUE'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.environ.get('mobilecatering.onrender.com', '')]
+ALLOWED_HOSTS = ['postgresql://whatson_database_a3cq_user:ks6bIDuieZ4wpMAEgV9Fgqrm1SZFmK9c@dpg-cuhrv3dds78s73c4so0g-a.oregon-postgres.render.com/whatson_database_a3cq', '127.0.0.1', os.environ.get('RENDER_HOSTNAME', '')]
 
 # Application definition
 
