@@ -4,7 +4,9 @@
 {% block content %}
     <div class="content-section">
         <div class="media">
-            <img class="rounded-circle account-img" src="{{ menu.sample_image.url }}">
+            {% if menu.sample_image %}
+                <img class="rounded-circle account-img" src="{{ menu.sample_image.url }}">
+            {% endif %}
             <div class="media-body">
                 <h2 class="account-heading">{{ menu.caterer.caterer_name }}</h2>
                 <p class="text-secondary">Caterer || {{ menu.register.first_name }} || {{ menu.register }}</p>

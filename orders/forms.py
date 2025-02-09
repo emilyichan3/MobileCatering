@@ -5,15 +5,18 @@ from django.contrib.auth import get_user_model
 from .models import Menu, Order
 from datetime import date, timedelta
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 User = get_user_model()
 
 class MenuCreateForm(forms.ModelForm):
     product_name = forms.CharField(max_length=150)
     product_description = forms.CharField(max_length=150)
+    unit_price = forms.DecimalField(max_digits=5, decimal_places=2)
+    unit_discount_price = forms.DecimalField(max_digits=5, decimal_places=2)   
     available_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     available_to = forms.DateField( widget=forms.DateInput(attrs={'type': 'date'}))
+    sample_image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'clearable': 'false'}))
 
     class Meta:
         model = Menu
@@ -38,6 +41,8 @@ class MenuCreateForm(forms.ModelForm):
         cleaned_data = super().clean()
         available_from = cleaned_data.get("available_from")
         available_to = cleaned_data.get("available_to")
+        unit_price = cleaned_data.get("unit_price")
+        unit_discount_price = cleaned_data.get("unit_discount_price")
         if available_from and available_to:
             if available_to < available_from:
                 raise ValidationError("The due available date must be greater than the available from date.")
@@ -45,7 +50,11 @@ class MenuCreateForm(forms.ModelForm):
         if available_to:
             if available_to < date.today():
                 raise ValidationError("The due available date cannot be in the past.")
-    
+
+        if unit_price is not None and unit_discount_price is not None:
+            if unit_price < unit_discount_price:
+                raise ValidationError("Unit price cannot be greater than pre-order unit price.")
+        
         return cleaned_data
         
     
@@ -53,7 +62,9 @@ class OrderCreateForm(forms.ModelForm):
     product_name = forms.CharField(max_length=60)
     unit_price = forms.DecimalField(max_digits=5, decimal_places=2)
     unit_discount_price = forms.DecimalField(max_digits=5, decimal_places=2)
-    order_qualities = forms.IntegerField(validators=[MinValueValidator(1)])
+    order_qualities = forms.IntegerField(
+                label="Order quantity (maximum is 200)",  # Ensure this line is included
+                validators=[MinValueValidator(1), MaxValueValidator(200)])
     pick_up_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     comment = forms.CharField(required=False, max_length=100)
 

@@ -20,10 +20,14 @@
         <tbody>
           {% for menu in menus %}
             <tr>
+              {% if menu.sample_image %}
                <td><img class="menu-img" 
                 src="{{ menu.sample_image.url }}"
                 alt="{{ menu.product_name }}">
               </td>
+              {% else %}
+              <td>No image available</td>
+            {% endif %}
               <td >{{ menu.product_name }}</td>
               <td>{{ menu.product_description }}</td>
               <td>{{ menu.unit_price }}</td>
