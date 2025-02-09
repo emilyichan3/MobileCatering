@@ -154,7 +154,7 @@ EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER'] # Login email address, Stored as
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD'] # App Password set from gmail, Stored as an environment varaible
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dgwyy8rtk',
-    'API_KEY': '378242254837915',
-    'API_SECRET': 'cwEo7HjGfKSzWmWwxfnUWMMZveg',
+    'CLOUD_NAME': os.environ['CLOUDINARY_CLOUD_NAME'],
+    'API_KEY': os.environ['CLOUDINARY_API_KEY'],
+    'API_SECRET': os.environ['CLOUDINARY_API_SECRET'],
 }
