@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *_args, **_kwargs):
         User = get_user_model()
 
-        # username = os.environ["DJANGO_SUPERUSER_USERNAME"]
+        username = os.environ["DJANGO_SUPERUSER_USERNAME"]
         email = os.environ["DJANGO_SUPERUSER_EMAIL"]
         password = os.environ["DJANGO_SUPERUSER_PASSWORD"]
 
