@@ -7,7 +7,7 @@
         {% if form.instance.pk %}
             <div class="media">
                 {% if menu.sample_image %}
-                    <img class="rounded-circle account-img" src="{{ menu.sample_image.url }}">
+                    <img class="rounded-circle account-img" src="{{ menu.get_image_url }}">
                 {% endif %}
                 <div class="media-body">
                     <h2 class="account-heading">{{ menu.caterer.caterer_name }}</h2>

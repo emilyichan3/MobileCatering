@@ -1,5 +1,5 @@
 from django.db import models
-from PIL import Image # Change here from pillow import Image
+# from PIL import Image # Change here from pillow import Image
 from datetime import datetime
 
 from django.contrib.auth.models import AbstractUser
@@ -19,14 +19,15 @@ class Profile(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
-
+    # below code is for storing images locally.
     # image = models.ImageField(default='user_default.jpg', upload_to='profile_pics')
+    # below code is for stroing images on https://cloudinary.com/home
     image = models.ImageField(upload_to='profile_pics', storage=MediaCloudinaryStorage(), null=True)
     dob = models.DateField(default=datetime.utcnow)
     
     def __str__(self):
         return self.email
-    
+    # below code is for storing images locally by pillow.
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)
 

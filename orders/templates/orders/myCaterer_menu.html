@@ -27,7 +27,7 @@
           <tr>
             {% if menu.sample_image %}
               <td><img class="menu-img" 
-                src="{{ menu.sample_image.url }}"
+                src="{{ menu.get_image_url }}"
                 alt="{{ menu.product_name }}">
               </td>
             {% else %}

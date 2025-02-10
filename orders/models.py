@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from cloudinary_storage.storage import MediaCloudinaryStorage
+from cloudinary.utils import cloudinary_url
+from django.templatetags.static import static
 
 User = get_user_model()
 
@@ -26,13 +29,23 @@ class Menu(models.Model):
     unit_discount_price = models.DecimalField(max_digits=5, decimal_places=2)
     available_from = models.DateField(default=timezone.now)
     available_to = models.DateField(default=timezone.now)
-    sample_image = models.ImageField(default='menu_default.jpg', upload_to='menu_pics', blank=True, null=True)
+    # below code is for storing images locally.
+    # sample_image = models.ImageField(default='menu_default.jpg', upload_to='menu_pics', blank=True, null=True)
+    image = models.ImageField(upload_to='menu_pics', storage=MediaCloudinaryStorage(), null=True)
     caterer = models.ForeignKey(Caterer, on_delete=models.CASCADE, related_name='menu')
     register = models.ForeignKey(User, on_delete=models.CASCADE, related_name='menu')
 
     def __str__(self):
         return f'{ self.product_name }'
     
+    def get_image_url(self):
+        if self.image: # Generate a Cloudinary thumbnail URL
+            return cloudinary_url(
+                self.image.name, width=400, height=400, crop="lfill"
+            )[0]
+        else: # Fallback to static default image
+            return static('menu_default.jpg')
+        
 class Order(models.Model):
     product_name = models.CharField(max_length=60)
     order_qualities = models.IntegerField()
