@@ -39,9 +39,9 @@ class Menu(models.Model):
         return f'{ self.product_name }'
     
     def get_image_url(self):
-        if self.image: # Generate a Cloudinary thumbnail URL
+        if self.sample_image: # Generate a Cloudinary thumbnail URL
             return cloudinary_url(
-                self.image.name, width=400, height=400, crop="lfill"
+                self.sample_image.name, width=400, height=400, crop="lfill"
             )[0]
         else: # Fallback to static default image
             return static('menu_default.jpg')
