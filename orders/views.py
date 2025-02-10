@@ -127,7 +127,7 @@ class OrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super().form_valid(form)  # Proceed with deletion if no menus exist
     
 
-class OrderMenuByCatererListView(LoginRequiredMixin, ListView):
+class OrderMenuByCatererListView(ListView):
     model = Menu
     template_name = 'orders/menu_by_caterer.html'
     context_object_name = 'menus'
