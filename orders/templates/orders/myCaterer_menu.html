@@ -25,7 +25,7 @@
       <tbody>
         {% for menu in menus %}
           <tr>
-            {% if menu.sample_image %}
+            {% if menu.get_image_url %}
               <td><img class="menu-img" 
                 src="{{ menu.get_image_url }}"
                 alt="{{ menu.product_name }}">
