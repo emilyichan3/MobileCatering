@@ -30,7 +30,6 @@
                   <a class="nav-item nav-link" href="{% url 'orders-mycaterer' user_id=user.id %}">My Caterer</a>
                 {% endif %}
               {% endif %}
-              <a class="nav-item nav-link" href="{% url 'orders-about' %}">About</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -61,15 +60,52 @@
           {% endif %}
           {% block content %}{% endblock %}
         </div>
-    </main>
-    <footer>
-      <p>© Copyright Yi-jung's UCD Ireland Framework Assignment 2025. All Rights Reserved. Please <a href="https://www.linkedin.com/in/yijung-chen-5052a4a4/">Contact Me</a> for further queries.</p>
-    </footer>    
+    </main>  
+    <footer class="footer bg-steel">
+      <div class="container">
+          <div class="row ">
+              <div class="col-md-3">
+                <h5>Mobile Catering</h5>
+              </div>
+              <div class="col-md-6">
+                  <div class="col-md-3">
+                  <h5>About Us</h5>
+                  </div>
+                  <p>
+                    Always take the best price to order food in advince.
+                 </p>
+              </div>
+              <div class="col-md-3">
+                  <h5>Follow Us</h5>
+                  <ul class="list-inline footer-links">
+                      <li class="list-inline-item">
+                          <a href="https://github.com/emilyichan3">
+                              <i class="fab fa-github"></i>
+                          </a>
+                      </li>
+                      <li class="list-inline-item">
+                          <a href="https://www.linkedin.com/in/yijung-chen-5052a4a4/">
+                              <i class="fab fa-linkedin"></i>
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-md-6">
+                  <p>© Copyright Yi-jung's Full Stack Software Development in UCD Ireland 2024-2025 - Framework Assignment. All Rights Reserved.</p>
+              </div>
+          </div>
+      </div>
+  </footer>
+  
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> 
   </body>
 </html>

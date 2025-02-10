@@ -174,10 +174,6 @@ class menu(ListView):
         return menus
 
 
-def about(request):
-    return render(request, 'orders/about.html', {'title': 'About'})
-
-
 class MyCatererCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Caterer
     template_name = 'orders/myCaterer_form.html'
@@ -216,7 +212,7 @@ class MyCatererListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class MyCatererUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Caterer
     template_name = 'orders/myCaterer_form.html'
-    fields = ['caterer_name', 'caterer_description','location', 'activate']
+    fields = ['caterer_name', 'caterer_description','location']
 
     def form_valid(self, form):
         form.instance.register = self.request.user
