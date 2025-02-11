@@ -44,7 +44,7 @@ class Menu(models.Model):
                 self.sample_image.name, width=400, height=400, crop="lfill"
             )[0]
         else: # Fallback to static default image
-            return static('orders/images/menu_default.jpg')
+            return static('orders/menu_default.jpg')
         
 class Order(models.Model):
     product_name = models.CharField(max_length=60)
