@@ -16,7 +16,7 @@ class MenuCreateForm(forms.ModelForm):
     unit_discount_price = forms.DecimalField(max_digits=5, decimal_places=2)   
     available_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     available_to = forms.DateField( widget=forms.DateInput(attrs={'type': 'date'}))
-    sample_image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'clearable': 'false'}))
+    sample_image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'clearable': 'false'}))
 
     class Meta:
         model = Menu
