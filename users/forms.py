@@ -48,7 +48,9 @@ class UserRegisterForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=150)
-    dob = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    dob = forms.DateField(required=False, 
+                          widget=forms.DateInput(attrs={'type': 'date'}),
+                          label="Date of Birthday")
 
     class Meta:
         model = Profile
