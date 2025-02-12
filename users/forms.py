@@ -50,7 +50,8 @@ class ProfileUpdateForm(forms.ModelForm):
     last_name = forms.CharField(max_length=150)
     dob = forms.DateField(required=False, 
                           widget=forms.DateInput(attrs={'type': 'date'}),
-                          label="Date of Birthday")
+                          label="Date of Birth")
+    image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'clearable': 'true'}))
 
     class Meta:
         model = Profile

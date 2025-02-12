@@ -31,7 +31,7 @@ class Menu(models.Model):
     available_to = models.DateField(default=timezone.now)
     # below code is for storing images locally.
     # sample_image = models.ImageField(default='menu_default.jpg', upload_to='menu_pics', blank=True, null=True)
-    sample_image = models.ImageField(upload_to='menu_pics', storage=MediaCloudinaryStorage(), null=True)
+    sample_image = models.ImageField(upload_to='menu_pics', storage=MediaCloudinaryStorage(), null=True, blank=True)
     caterer = models.ForeignKey(Caterer, on_delete=models.CASCADE, related_name='menu')
     register = models.ForeignKey(User, on_delete=models.CASCADE, related_name='menu')
 

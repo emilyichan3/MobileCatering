@@ -22,7 +22,7 @@ class Profile(AbstractUser):
     # below code is for storing images locally.
     # image = models.ImageField(default='user_default.jpg', upload_to='profile_pics')
     # below code is for stroing images on https://cloudinary.com/home
-    image = models.ImageField(upload_to='profile_pics', storage=MediaCloudinaryStorage(), null=True)
+    image = models.ImageField(upload_to='profile_pics', storage=MediaCloudinaryStorage(), null=True, blank=True)
     dob = models.DateField(default=datetime.utcnow)
     
     def __str__(self):
