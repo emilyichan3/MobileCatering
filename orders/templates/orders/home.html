@@ -1,29 +1,33 @@
 {% extends "orders/base.html" %}
 {% block content %}
-<div class="group-layout ">
-  {% for caterer in caterers %}
-  <div class="group-container ">
-    <div class="group-form ">
-      <table >
+  <div class="container d-lg-flex">
+    {% for caterer in caterers %}
+    <div class="col-lg-6 table-container-1">
+      <table class="table table-borderless text-center ">
         <tbody>
-          <tr><td class="context-overflow">{{ caterer.caterer_name }}</td></tr>
-          <tr><td class="context-overflow">{{ caterer.caterer_description }}</td></tr>
-          <tr><td class="context-overflow">Location: {{ caterer.location }}</td></tr>         
-          <tr><td class="context-overflow">{% if caterer.activate %}Opening{% else %}Closed{% endif %}</td></tr>        
-        </tbody>
-        <tfoot>
-          <tr><td class="link_line">
-            <a
-              href="{% url 'orders-menu-by-caterer' caterer_id=caterer.id %}"
-            >
-              Menu
-            </a>
-          </td>
+          <tr>
+            <td class="col-all-data" >{{ caterer.caterer_name }}</td>
           </tr>
-        </tfoot>
-      </table>
-    </div>
+          <tr>
+            <td>{{ caterer.caterer_description }}</td>
+          </tr>
+          <tr>
+            <td>{{ caterer.location }}</td>
+          </tr>
+      </tbody>
+      <tfoot>
+        <tr><td class="text-center table-success">
+          <span><a
+            href="{% url 'orders-menu-by-caterer' caterer_id=caterer.id %}"
+          >
+            Menu
+          </a>
+        </span>
+        </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
 {% endblock content %}

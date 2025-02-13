@@ -1,0 +1,53 @@
+{% extends "orders/base.html" %}
+{% block content %}
+    <h1>{{ caterer_name }}</h1>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Product</th>
+            <th scope="col">Description</th>
+            <th scope="col">Original Price</th>
+            <th scope="col">Pre-Order Price</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            {% if user.is_authenticated %}
+              <th scope="col"></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for menu in menus %}
+            <tr>
+              {% if menu.get_image_url %}
+               <td><img class="menu-img" 
+                src="{{ menu.get_image_url }}"
+                alt="{{ menu.product_name }}">
+              </td>
+              {% else %}
+              <td>No image available</td>
+            {% endif %}
+              <td >{{ menu.product_name }}</td>
+              <td>{{ menu.product_description }}</td>
+              <td>{{ menu.unit_price }}</td>
+              <td>{{ menu.unit_discount_price }}</td>
+              <td>{{ menu.available_from|date:"d/m/Y" }}</td>
+              <td>{{ menu.available_to|date:"d/m/Y" }}</td>
+              {% if user.is_authenticated %}
+                <td>
+                  <a
+                    class="btn btn-sm btn-primary me-2 custom-btn"
+                    href="{% url 'orders-myorder-new' menu.id %}"
+                    role="button"
+                  >
+                    Order
+                  </a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock content %}
