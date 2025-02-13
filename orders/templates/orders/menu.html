@@ -1,39 +1,39 @@
 {% extends "orders/base.html" %}
 {% block content %}
     <h1>{{ caterer_name }}</h1>
-    <div class="tabtable-responsive">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Product</th>
-            <th scope="col">Description</th>
-            <th scope="col">Original Price</th>
-            <th scope="col">Pre-Order Price</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            {% if user.is_authenticated %}
-              <th scope="col"></th>
-            {% endif %}
-          </tr>
-        </thead>
+    <div class="container d-lg-flex ">
+    {% for menu in menus %}
+    <div class="col-lg-6 table-container">
+      <table class="table">
         <tbody>
-          {% for menu in menus %}
+          <tr >
+            <td colspan="2" class="table-success col-all-data ">{{ menu.product_name }}</td>
+          </tr>
             <tr>
               {% if menu.get_image_url %}
-               <td><img class="menu-img" 
+               <td rowspan="8" class="col-1-data">
+                <img class="col-image" 
                 src="{{ menu.get_image_url }}"
                 alt="{{ menu.product_name }}">
               </td>
               {% else %}
               <td>No image available</td>
             {% endif %}
-              <td >{{ menu.product_name }}</td>
-              <td>{{ menu.product_description }}</td>
-              <td>{{ menu.unit_price }}</td>
-              <td>{{ menu.unit_discount_price }}</td>
-              <td>{{ menu.available_from|date:"d/m/Y" }}</td>
-              <td>{{ menu.available_to|date:"d/m/Y" }}</td>
+            </tr>
+            <tr>
+              <td class="col-2-data">{{ menu.product_description }}</td>
+            </tr>
+            <tr>
+              <td>was <span class="text-decoration-line-through"> €{{ menu.unit_price }}</span></td>
+            </tr>
+            <tr>
+              <td>now <span class="text-danger"> €{{ menu.unit_discount_price }}</span></td>
+            </tr>
+              {% comment %} <td>{{ menu.available_from|date:"d/m/Y" }}</td> {% endcomment %}
+            <tr>
+              <td>Until {{ menu.available_to|date:"d/m/Y" }}</td>
+            <tr>
+            <tr>
               {% if user.is_authenticated %}
                 <td>
                   <a
@@ -43,11 +43,23 @@
                   >
                     Order
                   </a>
+                </td>
+                {% else %}
+                <td>
+                  <a
+                    class="btn btn-sm btn-primary me-2 custom-btn"
+                    href="{% url 'login' %}"
+                    role="button"
+                  >
+                  Login
+                </a>
                 {% endif %}
               </td>
             </tr>
-          {% endfor %}
+            </tr>
         </tbody>
       </table>
-    </div>
+  </div>
+    {% endfor %}
+  </div>
 {% endblock content %}
