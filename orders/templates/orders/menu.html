@@ -10,15 +10,26 @@
             <td colspan="2" class="table-success col-all-data ">{{ menu.product_name }}</td>
           </tr>
             <tr>
-              {% if menu.get_image_url %}
-               <td rowspan="8" class="col-1-data">
+              {% comment %} {% if menu.get_image_url %}
+               <td rowspan="8" class="col-1-data ">
                 <img class="col-image" 
                 src="{{ menu.get_image_url }}"
                 alt="{{ menu.product_name }}">
               </td>
               {% else %}
               <td>No image available</td>
-            {% endif %}
+            {% endif %} {% endcomment %}
+            {% if menu.get_image_url %}
+            <td rowspan="8" class="col-1-data d-none d-md-table-cell">
+              <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
+            </td>
+            <td rowspan="1" class="col-1-data d-table-cell d-md-none">
+              <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
+            </td>
+          {% else %}
+            <td rowspan="8" class="d-none d-md-table-cell">No image available</td>
+            <td rowspan="1" class="d-table-cell d-md-none">No image available</td>
+          {% endif %}
             </tr>
             <tr>
               <td class="col-2-data">{{ menu.product_description }}</td>
