@@ -10,7 +10,7 @@
   </a>
   {% else %}
       <!-- Optionally, show a message if the user doesn't have permission -->
-      <p>You don't have permission to create a new caterer</p>
+      <p>You don't have permission to create a new caterer.</p>
   {% endif %}
   <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -58,7 +58,10 @@
             </div>
             </td>
           </tr>
-
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center">No caterers available</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>    

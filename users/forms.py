@@ -26,7 +26,8 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=150)
-    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    dob = forms.DateField(label="Date of Birth",
+                          widget=forms.DateInput(attrs={'type': 'date'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

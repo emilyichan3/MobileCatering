@@ -41,6 +41,10 @@
             </div>
             </td>
           </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center">No orders available</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
