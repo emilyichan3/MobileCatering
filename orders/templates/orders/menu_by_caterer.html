@@ -4,21 +4,21 @@
     <div class="container d-lg-flex ">
     {% for menu in menus %}
     <div class="col-lg-6 table-container">
-      <table class="table">
+      <table class="container table">
         <tbody>
           <tr >
             <td colspan="2" class="table-success col-all-data ">{{ menu.product_name }}</td>
           </tr>
             <tr>
               {% if menu.get_image_url %}
-              <td rowspan="8" class="col-1-data d-none d-md-table-cell">
+              <td rowspan="6" class="col-1-data d-none d-md-table-cell">
                 <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
               </td>
               <td rowspan="1" class="col-1-data d-table-cell d-md-none">
                 <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
               </td>
             {% else %}
-              <td rowspan="8" class="d-none d-md-table-cell">No image available</td>
+              <td rowspan="6" class="d-none d-md-table-cell">No image available</td>
               <td rowspan="1" class="d-table-cell d-md-none">No image available</td>
             {% endif %}
             </tr>

@@ -3,67 +3,66 @@
     <h1>{{ caterer_name }}</h1>
     <div class="container d-lg-flex ">
     {% for menu in menus %}
-    <div class="col-lg-6 table-container">
+    <div class="col-lg-6 table-container table-responsive">
       <table class="table">
         <tbody>
           <tr >
             <td colspan="2" class="table-success col-all-data ">{{ menu.product_name }}</td>
           </tr>
-            <tr>
-            {% if menu.get_image_url %}
-            <td rowspan="9" class="col-1-data d-none d-md-table-cell">
+          <tr>
+          {% if menu.get_image_url %}
+            <td rowspan="7" class="col-1-data d-none d-md-table-cell">
               <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
             </td>
             <td rowspan="1" class="col-1-data d-table-cell d-md-none">
               <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
             </td>
           {% else %}
-            <td rowspan="9" class="d-none d-md-table-cell">No image available</td>
+            <td rowspan="7" class="d-none d-md-table-cell">No image available</td>
             <td rowspan="1" class="d-table-cell d-md-none">No image available</td>
           {% endif %}
-            </tr>
-            <tr>
-              <td class="col-2-data">{{ menu.product_description }}</td>
-            </tr>
-            <tr>
-              <td>was <span class="text-decoration-line-through"> €{{ menu.unit_price }}</span></td>
-            </tr>
-            <tr>
-              <td>now <span class="text-danger"> €{{ menu.unit_discount_price }}</span></td>
-            </tr>
-            <tr>
-              <td>Until {{ menu.available_to|date:"d/m/Y" }}</td>
-            </tr>
-            <tr>
-              <td>{{ menu.caterer.caterer_name }} at {{ menu.caterer.location }}</td>
-            </tr>            
-            <tr>
-              {% if user.is_authenticated %}
-                <td>
-                  <a
-                    class="btn btn-sm btn-primary me-2 custom-btn"
-                    href="{% url 'orders-myorder-new' menu.id %}"
-                    role="button"
-                  >
-                    Order
-                  </a>
-                </td>
-                {% else %}
-                <td>
-                  <a
-                    class="btn btn-sm btn-primary me-2 custom-btn"
-                    href="{% url 'login' %}"
-                    role="button"
-                  >
+          </tr>
+          <tr>
+            <td class="col-2-data">{{ menu.product_description }}</td>
+          </tr>
+          <tr>
+            <td>was <span class="text-decoration-line-through"> €{{ menu.unit_price }}</span></td>
+          </tr>
+          <tr>
+            <td>now <span class="text-danger"> €{{ menu.unit_discount_price }}</span></td>
+          </tr>
+          <tr>
+            <td>Until {{ menu.available_to|date:"d/m/Y" }}</td>
+          </tr>
+          <tr>
+            <td>{{ menu.caterer.caterer_name }} at {{ menu.caterer.location }}</td>
+          </tr>            
+          <tr>
+            {% if user.is_authenticated %}
+              <td>
+                <a
+                  class="btn btn-sm btn-primary me-2 custom-btn"
+                  href="{% url 'orders-myorder-new' menu.id %}"
+                  role="button"
+                >
                   Order
                 </a>
-                {% endif %}
               </td>
-            </tr>
-            </tr>
-        </tbody>
-      </table>
+              {% else %}
+              <td>
+                <a
+                  class="btn btn-sm btn-primary me-2 custom-btn"
+                  href="{% url 'login' %}"
+                  role="button"
+                >
+                Order
+              </a>
+            </td>
+            {% endif %}
+          </tr>
+      </tbody>
+    </table>
   </div>
-    {% endfor %}
+  {% endfor %}
   </div>
 {% endblock content %}
