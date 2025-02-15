@@ -34,7 +34,7 @@
               {% comment %} <td>{{ menu.available_from|date:"d/m/Y" }}</td> {% endcomment %}
             <tr>
               <td>Until {{ menu.available_to|date:"d/m/Y" }}</td>
-            <tr>
+            </tr>
             <tr>
               {% if user.is_authenticated %}
                 <td>
@@ -62,6 +62,10 @@
         </tbody>
       </table>
   </div>
+    {% empty %}
+    <div>
+      <p class="text-center">No menus available</td>
+    </div>
     {% endfor %}
   </div>
 {% endblock content %}

@@ -8,7 +8,8 @@
           <th scope="col">Product</th>
           <th scope="col">Pre-Order Price</th>
           <th scope="col">Quality</th>
-          <th scope="col">Pick up at</th>
+          <th scope="col">Pick up</th>
+          <th scope="col">Location</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -20,6 +21,7 @@
             <td>{{ order.unit_discount_price }}</td>
             <td>{{ order.order_qualities }}</td>
             <td>{{ order.pick_up_at|date:'d/m/Y' }}</td>
+            <td>{{ order.menu.caterer.location }}</td>
             <td >
               <div class="d-flex custom-gap">
               <a

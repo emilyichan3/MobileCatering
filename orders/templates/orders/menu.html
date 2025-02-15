@@ -10,24 +10,15 @@
             <td colspan="2" class="table-success col-all-data ">{{ menu.product_name }}</td>
           </tr>
             <tr>
-              {% comment %} {% if menu.get_image_url %}
-               <td rowspan="8" class="col-1-data ">
-                <img class="col-image" 
-                src="{{ menu.get_image_url }}"
-                alt="{{ menu.product_name }}">
-              </td>
-              {% else %}
-              <td>No image available</td>
-            {% endif %} {% endcomment %}
             {% if menu.get_image_url %}
-            <td rowspan="8" class="col-1-data d-none d-md-table-cell">
+            <td rowspan="9" class="col-1-data d-none d-md-table-cell">
               <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
             </td>
             <td rowspan="1" class="col-1-data d-table-cell d-md-none">
               <img class="col-image" src="{{ menu.get_image_url }}" alt="{{ menu.product_name }}">
             </td>
           {% else %}
-            <td rowspan="8" class="d-none d-md-table-cell">No image available</td>
+            <td rowspan="9" class="d-none d-md-table-cell">No image available</td>
             <td rowspan="1" class="d-table-cell d-md-none">No image available</td>
           {% endif %}
             </tr>
@@ -40,10 +31,12 @@
             <tr>
               <td>now <span class="text-danger"> €{{ menu.unit_discount_price }}</span></td>
             </tr>
-              {% comment %} <td>{{ menu.available_from|date:"d/m/Y" }}</td> {% endcomment %}
             <tr>
               <td>Until {{ menu.available_to|date:"d/m/Y" }}</td>
+            </tr>
             <tr>
+              <td>{{ menu.caterer.caterer_name }} at {{ menu.caterer.location }}</td>
+            </tr>            
             <tr>
               {% if user.is_authenticated %}
                 <td>
