@@ -45,15 +45,15 @@ class MenuCreateForm(forms.ModelForm):
         unit_discount_price = cleaned_data.get("unit_discount_price")
         if available_from and available_to:
             if available_to < available_from:
-                raise ValidationError("The due available date must be greater than the available from date.")
+                raise ValidationError("The due available date must be later than the available from date.")
 
         if available_to:
             if available_to < date.today():
-                raise ValidationError("The due available date cannot be in the past.")
+                raise ValidationError("The due available date must be today or a future date.")
 
         if unit_price is not None and unit_discount_price is not None:
             if unit_price < unit_discount_price:
-                raise ValidationError("Unit price cannot be greater than pre-order unit price.")
+                raise ValidationError("The unit price cannot exceed the pre-order unit price.")
         
         return cleaned_data
         
@@ -99,5 +99,5 @@ class OrderCreateForm(forms.ModelForm):
         pick_up_at = cleaned_data.get("pick_up_at")
 
         if pick_up_at and pick_up_at < date.today():
-            raise ValidationError("The pick-up date cannot be in the past.")
+            raise ValidationError("Please select a pick-up date that is today or in the future.")
         return cleaned_data

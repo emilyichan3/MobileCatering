@@ -73,7 +73,7 @@ class OrderCreatelView(LoginRequiredMixin, CreateView):
         form.instance.customer = self.request.user
         form.instance.status = "Ordered"
         if form.instance.pick_up_at > menu.available_to:
-            messages.error(self.request, f"The pick-up date cannot be after the menu's available date: {menu.available_to.strftime('%Y-%m-%d')}.")
+            messages.error(self.request, f"The pick-up date must be on or before the menu's available date.: {menu.available_to.strftime('%Y-%m-%d')}.")
             return redirect(reverse("orders-myorder-new", kwargs={"menu_id": self.kwargs.get('menu_id')}))
         return super().form_valid(form)
     
@@ -107,7 +107,7 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         menu = get_object_or_404(Menu, id=self.object.menu.id)
         if form.instance.pick_up_at > menu.available_to:
-            messages.error(self.request, f"The pick-up date cannot be after the menu's available date: {menu.available_to.strftime('%Y-%m-%d')}.")
+            messages.error(self.request, f"The pick-up date must be on or before the menu's available date: {menu.available_to.strftime('%Y-%m-%d')}.")
             return redirect(reverse("orders-myorder-update", kwargs={"pk":self.kwargs.get('pk')}))
         return super().form_valid(form)
   
@@ -240,7 +240,7 @@ class MyCatererDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         caterer = self.get_object()
 
         if caterer.menu.all().exists():  
-            messages.error(self.request, "You cannot delete this caterer because it has associated menus.")
+            messages.error(self.request, "This caterer cannot be deleted because it has linked menus.")
             return redirect(reverse("orders-mycaterer", kwargs={"user_id": caterer.register.id}))
         return super().form_valid(form)  # Proceed with deletion if no menus exist
     
@@ -321,7 +321,7 @@ class MyCatererMenuUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         menu = self.get_object()
        
         if any(form.instance.available_to < order.pick_up_at for order in menu.orders.all()):
-            messages.error(self.request, "You cannot update this menu because some orders has pick_up_at greater than available date.")
+            messages.error(self.request, "Menu update failed: Some orders have pick-up dates that are later than the menu's available date.")
             return redirect(reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id}))
 
         return super().form_valid(form)  
@@ -343,7 +343,7 @@ class MyCatererMenuDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
         menu = self.get_object()
 
         if menu.orders.all().exists():  
-            messages.error(self.request, "You cannot delete this menu because it has associated orders.")
+            messages.error(self.request, "This menu cannot be deleted because it has existing orders.")
             return redirect(reverse("orders-mycaterer-menu", kwargs={"caterer_id": caterer_id}))
         return super().form_valid(form)  # Proceed with deletion if no menus exist
 
