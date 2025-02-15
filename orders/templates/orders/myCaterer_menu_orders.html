@@ -27,6 +27,10 @@
             <td>{{ order.comment }}</td>
             <td>{{ order.status }}</td>
           </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="text-center">No orders available</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
