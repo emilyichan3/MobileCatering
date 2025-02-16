@@ -1,13 +1,14 @@
 {% extends "orders/base.html" %}
 {% block content %}
     <h1>All menu on {{ caterer.caterer_name }}, {{ caterer.register.first_name }} is an owner!</h1>
-    <a
-    class="btn btn-sm btn-primary me-2"
-    href="{% url 'orders-mycaterer-menu-new' caterer_id=caterer.id%}"
-    role="button"
-  >
-    Create New Menu
-  </a>
+    <div>
+      <button class="btn btn-outline-info">
+      <a
+      href="{% url 'orders-mycaterer-menu-new' caterer_id=caterer.id%}"
+    >
+      New Menu
+    </a>
+    </div>
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
@@ -42,7 +43,7 @@
             <td>
               <div class="d-flex custom-gap">
                 <a
-                  class="btn btn-sm btn-primary me-2 custom-btn"
+                  class="btn btn-outline-success"
                   href="{% url 'orders-mycaterer-menu-orders' caterer_id=menu.caterer.id menu_id=menu.id %}"
                   role="button"
                 >
@@ -50,17 +51,17 @@
                 </a>
               </div>
               <div class="d-flex custom-gap">
-              <a
-                class="btn btn-sm btn-primary me-2 custom-btn"
-                href="{% url 'orders-mycaterer-menu-update' caterer_id=menu.caterer.id pk=menu.id %}"
-                role="button"
-                >
-                Update
-              </a>
+                <button class="btn btn-outline-info">
+                <a
+                  href="{% url 'orders-mycaterer-menu-update' caterer_id=menu.caterer.id pk=menu.id %}"
+                  >
+                  Update
+                </a>
+              </button>
             </div>
-            <div class="d-flex custom-gap">
-              <a
-                class="btn btn-sm btn-danger me-2 custom-btn"
+              <div class="d-flex custom-gap">
+                <a
+                  class="btn btn-outline-danger"
                   href="{% url 'orders-mycaterer-menu-delete' caterer_id=menu.caterer.id pk=menu.id %}"
                   role="button"
                 >

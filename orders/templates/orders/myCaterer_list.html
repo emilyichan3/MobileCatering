@@ -1,17 +1,19 @@
 {% extends "orders/base.html" %}
 {% block content %}
   {% if can_create_caterer  %}
-    <a
-    class="btn btn-sm btn-primary me-2"
-    href="{% url 'orders-mycaterer-new' %}"
-    role="button"
-  >
-    Create New Caterer
-  </a>
+  <div>
+    <button class="btn btn-outline-info">
+      <a
+      href="{% url 'orders-mycaterer-new' %}"
+    >
+      New Caterer
+    </a>
+  </button>
   {% else %}
-      <!-- Optionally, show a message if the user doesn't have permission -->
-      <p>You don't have permission to create a new caterer.</p>
+  <!-- Optionally, show a message if the user doesn't have permission -->
+    <p>You don't have permission to create a new caterer.</p>
   {% endif %}
+  </div>
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
@@ -29,9 +31,9 @@
             <td>{{ caterer.caterer_description }}</td>
             <td>{{ caterer.location }}</td>
             <td>
-              <div class="d-flex custom-gap">
+              <div class="d-flex custom-gap text-center">
                 <a
-                  class="btn btn-sm btn-primary me-2 custom-btn"
+                  class="btn btn-outline-success"
                   href="{% url 'orders-mycaterer-menu' caterer_id=caterer.id %}"
                   role="button"
                 >
@@ -39,17 +41,17 @@
                 </a>
               </div>
               <div class="d-flex custom-gap">
-              <a
-                class="btn btn-sm btn-primary me-2 custom-btn"
-                href="{% url 'orders-mycaterer-update' caterer.id %}"
-                role="button"
-              >
-                Update
-              </a>
+                <button class="btn btn-outline-info">
+                <a
+                  href="{% url 'orders-mycaterer-update' caterer.id %}"
+                >
+                  Update
+                </a>
+              </div>
             </div>
             <div class="d-flex custom-gap">
               <a
-                class="btn btn-sm btn-danger me-2 custom-btn"
+                class="btn btn-outline-danger"
                 href="{% url 'orders-mycaterer-delete' caterer.id %}"
                 role="button"
               >

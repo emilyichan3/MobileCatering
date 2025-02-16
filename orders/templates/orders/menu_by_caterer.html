@@ -38,23 +38,23 @@
             <tr>
               {% if user.is_authenticated %}
                 <td>
+                  <button class="btn btn-outline-info">
                   <a
-                    class="btn btn-sm btn-primary me-2 custom-btn"
                     href="{% url 'orders-myorder-new' menu.id %}"
-                    role="button"
                   >
                     Order
                   </a>
+                </button>
                 </td>
                 {% else %}
                 <td>
+                  <button class="btn btn-outline-info">
                   <a
-                    class="btn btn-sm btn-primary me-2 custom-btn"
                     href="{% url 'login' %}"
-                    role="button"
                   >
                   Order
                 </a>
+              </button>
                 {% endif %}
               </td>
             </tr>
