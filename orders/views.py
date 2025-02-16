@@ -361,6 +361,13 @@ class MyCatererMenuOrderListView(LoginRequiredMixin, UserPassesTestMixin, ListVi
         )
         return orders
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        caterer_id = self.kwargs.get('caterer_id')
+
+        context['caterer_id'] = caterer_id
+        return context
+    
     def test_func(self):
         caterer_id = self.kwargs.get('caterer_id') 
         caterer = get_object_or_404(Caterer, id=caterer_id)

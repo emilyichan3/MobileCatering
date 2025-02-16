@@ -9,7 +9,7 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger" type="submit">Yes, Cancel</button> 
-                <a class="btn btn-outline-sec" href="{% url 'orders-myorder' object.customer.id %}">Cancel</a> 
+                <button class="btn btn-outline-info"> <a href="{% url 'orders-myorder' object.customer.id %}">Cancel</a> </button> 
             </div>
         </form>
     </div>
