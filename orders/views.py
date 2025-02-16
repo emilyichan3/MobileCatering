@@ -98,8 +98,13 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         self.menu = get_object_or_404(Menu, id=self.object.menu.id)
         context['menu'] = self.menu
+
+        total_saving = (self.menu.unit_price - self.object.unit_discount_price) * self.object.order_qualities
+        context['total_saving'] = total_saving
+        
         return context
-    
+
+
     def test_func(self):
         order = self.get_object()
         return self.request.user == order.customer 

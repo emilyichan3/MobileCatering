@@ -18,7 +18,11 @@
             {{ form|crispy }} <!-- Updated to load the form and let crispy take care of the --> 
             <div class="form-group">
                 <label for="total_saving">You are saving ...</label>
-                <input type="text" id="total_saving" class="highlight_text form-control " readonly> 
+                {% if form.instance.pk %}
+                    <input type="text" id="total_saving" class="highlight_text form-control " readonly value="Wow! Saving € {{ total_saving }}"> 
+                {% else %}
+                    <input type="text" id="total_saving" class="highlight_text form-control " readonly> 
+                {% endif %}
                 <p class="custom-gap"></p>
                 <button class="btn btn-outline-info" type="submit">
                     {% if form.instance.pk %}
